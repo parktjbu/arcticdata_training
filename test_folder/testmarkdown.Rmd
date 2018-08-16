@@ -20,3 +20,65 @@ catch_df <- read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df3
                     stringsAsFactors = FALSE)
 head(catch_df)
 ```
+
+$ control + shift + m for short cut of pipe operator
+%>% 
+
+```{r}
+catch_df_sel <- catch_df %>%
+  select(-All,-notesRegCode) %>% 
+  filter()
+
+head(catch_df_sel)
+```
+
+
+
+```{r}
+catch_df_sel_gat <- catch_df_sel %>%
+  gather(key = "species", value = "catch", -Region, -Year)
+
+print(unique(catch_df_sel_gat$species))
+```
+
+
+
+```{r}
+catch_df_sel_gat_ren <- catch_df_sel_gat %>% 
+  rename(catch_1000 = catch)
+
+head(catch_df_sel_gat_ren)
+tail(catch_df_sel_gat_ren)
+```
+
+
+
+
+
+```{r}
+catch_df_pipe_all <- catch_df %>%
+  select(-All,-notesRegCode) %>%
+  gather(key = "species", value = "catch", -Region, -Year) %>% 
+  rename(catch_1000 = catch)
+
+head(catch_df_pipe_all)
+
+plot(catch_df_pipe_all$Year, catch_df_pipe_all$catch_1000)
+```
+
+
+
+
+```{r}
+catch_int <- as.integer(catch_df_pipe_all$catch_1000)
+nanID <- which(is.na(catch_int) == T)
+catch_df_pipe_all$catch_1000[nanID]
+
+catch_df_pipe_all_mut <- catch_df_pipe_all %>% 
+  mutate(catch_1000 = ifelse(catch_1000 == "I",1,catch_1000)) %>% 
+  mutate(catch_1000 = as.integer(catch_1000)) %>%
+  mutate(catch = catch_1000*1000) %>% 
+  select(-catch_1000)
+  
+tail(catch_df_pipe_all_mut)
+```
