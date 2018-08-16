@@ -82,3 +82,40 @@ catch_df_pipe_all_mut <- catch_df_pipe_all %>%
   
 tail(catch_df_pipe_all_mut)
 ```
+
+
+### Split - Apply-Combine
+
+```{r}
+catch_summarize <- catch_df_pipe_all_mut %>%
+  group_by(Region,species) %>% 
+  summarise(mean_catch = mean(catch,na.rm=T),std_catch= sd(catch,na.rm=T),med_catch= median(catch,na.rm=T),min_catch= range(catch,na.rm=T)[1],max_catch= range(catch,na.rm=T)[2],n_obs=n()) %>% 
+  filter(species == "Chinook") %>% 
+  arrange(desc(mean_catch))
+
+print(catch_summarize)
+
+
+catch_group <- catch_df_pipe_all_mut %>%
+  group_by(Region) 
+```
+
+
+## Practice "Join"
+```{r}
+region_defs <- read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.303.1", method = "libcurl"),
+                        stringsAsFactors = FALSE)
+
+head(region_defs)
+region_defs <- region_defs %>% 
+  select(code,mgmtArea) %>% 
+  rename(Region = code, Region_Name = mgmtArea)
+
+
+catch_df_pipe_all_mut_join <- catch_df_pipe_all_mut %>% 
+  group_by(Region) %>% 
+  summarise(total_catch = sum(catch)) %>% 
+  left_join(region_defs, by = c("Region" = "Region"))    
+
+head(catch_df_pipe_all_mut_join)
+```
