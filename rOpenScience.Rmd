@@ -1,0 +1,50 @@
+---
+title: "rOpenScience"
+author: "Taejin Park"
+date: "August 17, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+#install.packages("fansi")
+#install.packages("rfishbase")
+
+library(fansi)
+library(rfishbase)
+
+fish <- c("Oreochromis niloticus", "Salmo trutta")
+print(fish)
+fish <- validate_names(c("Oreochromis niloticus", "Salmo trutta"))
+
+fish <- species_list(Genus = "Labroides")
+fish
+
+fish_common <- common_to_sci("trout")
+fish_common
+
+```
+
+
+
+
+```{r}
+#install.packages("rnoaa")
+#install.packages("ncdf4")
+
+
+library(rnoaa)
+library(ncdf4)
+
+
+# Go here: http://www.ndbc.noaa.gov/
+# Find a station ID, like https://www.ndbc.noaa.gov/station_page.php?station=46080
+buoy(dataset = 'cwind', buoyid = 46080, year = 2016, datatype = "c")
+ 
+bd <- buoy(dataset = 'cwind', buoyid = 46080, year = 2016, datatype = "c")
+plot(bd$data$wind_spd)
+```
