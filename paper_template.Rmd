@@ -1,0 +1,20 @@
+---
+title: "paper_template"
+author: "Taejin Park"
+date: "August 17, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r eco=F}
+library(devtools)
+#devtools::install_github("benmarwick/rrtools")
+#install.packages("captioner")
+library(rrtools)
+library(captioner)
+```

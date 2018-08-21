@@ -31,6 +31,8 @@ fish_common
 
 
 
+\[\sum_{i=1}^{N}{log(i) + \frac{\omega}{x}}\]
+
 
 ```{r}
 #install.packages("rnoaa")
@@ -39,6 +41,9 @@ fish_common
 
 library(rnoaa)
 library(ncdf4)
+
+
+\[\sum_{i=1}^{N}{log(i) + \frac{\omega}{x}}\]
 
 
 # Go here: http://www.ndbc.noaa.gov/
